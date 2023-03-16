@@ -1,6 +1,8 @@
 module.exports = {
   app: {
     port: 3000,
-    static_url: __dirname + "/../src/public",
+    static_folder: __dirname + "/../src/public",
+    views_folder: __dirname + "/../src/apps/view",
+    view_engine: "ejs",
   },
 };

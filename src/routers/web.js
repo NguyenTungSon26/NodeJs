@@ -3,6 +3,7 @@ const router = express.Router();
 
 //Import Controller
 const AuthController = require("../apps/controllers/auth");
+const TestController = require("../apps/controllers/test");
 const AdminController = require("../apps/controllers/admin");
 const ProductController = require("../apps/controllers/product");
 const UserController = require("../apps/controllers/user");
@@ -13,6 +14,8 @@ const Home = (req, res) => {
 };
 router.get("/", Home);
 
+router.get("/test", TestController.test);
+router.post("/test2", TestController.test2);
 router.get("/admin/login", AuthController.login);
 router.post("/admin/login", AuthController.postLogin);
 router.get("/admin/logout", AuthController.logout);

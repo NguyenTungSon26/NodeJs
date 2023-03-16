@@ -1,14 +1,22 @@
 const login = (req, res) => {
-  res.send(`
-  <form method="post">
-  <input type="text" name="mail"/>
-  <input type="text" name="pass"/>
-  <input type="submit" name="sbm" value="Login"/>
-</form>`);
+  res.render("admin/login", { data: {} });
 };
 
 const postLogin = (req, res) => {
-  console.log(req.body.mail);
+  const email = req.body.email;
+  const password = req.body.password;
+  let error;
+  if (email == "") {
+    error = "Email không được để trống !";
+  } else if (password == "") {
+    error = "Mật khẩu không được để trống !";
+  } else if (email == "vietpro.edu.vn@gmail.com" && password == "123456") {
+    res.redirect("/admin/dashboard");
+  } else {
+    error = "Tài khoản không hợp lệ!";
+  }
+  res.render("admin/login", { data: { error: error } });
+  console.log(error);
 };
 const logout = (req, res) => {
   res.send("/admin/logout");
