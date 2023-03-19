@@ -1,7 +1,18 @@
 const express = require("express");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const config = require("config");
 const app = express();
+
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+  session({
+    secret: "project",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
 //Config express
 // app.use(express.urlencoded({ extended: true }));

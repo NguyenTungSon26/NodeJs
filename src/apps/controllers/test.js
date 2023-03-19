@@ -5,8 +5,8 @@ const UserModel = require("../models/user");
 const CommentModel = require("../models/comment");
 
 const test = async (req, res) => {
-  const users = await UserModel.find({});
-  console.log(users);
+  req.session.email = "vietpro@gmail.com";
+  console.log(req.session.email);
 };
 // ProductModel.find({}, (err, docs) => {
 //   console.log(docs);

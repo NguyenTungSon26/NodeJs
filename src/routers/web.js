@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const AuthMiddleware = require("../apps/middlewares/auth");
 
 //Import Controller
 const AuthController = require("../apps/controllers/auth");
@@ -16,16 +17,40 @@ router.get("/", Home);
 
 router.get("/test", TestController.test);
 router.post("/test2", TestController.test2);
-router.get("/admin/login", AuthController.login);
-router.post("/admin/login", AuthController.postLogin);
+router.get("/admin/login", AuthMiddleware.checkLogin, AuthController.login);
+router.post(
+  "/admin/login",
+  AuthMiddleware.checkLogin,
+  AuthController.postLogin
+);
 router.get("/admin/logout", AuthController.logout);
 
-router.get("/admin/dashboard", AdminController.index);
+router.get(
+  "/admin/dashboard",
+  AuthMiddleware.checkAdmin,
+  AdminController.index
+);
 
-router.get("/admin/products", ProductController.index);
-router.get("/admin/products/create", ProductController.create);
-router.get("/admin/products/edit/:id", ProductController.edit);
-router.get("/admin/products/delete/:id", ProductController.del);
+router.get(
+  "/admin/products",
+  AuthMiddleware.checkAdmin,
+  ProductController.index
+);
+router.get(
+  "/admin/products/create",
+  AuthMiddleware.checkAdmin,
+  ProductController.create
+);
+router.get(
+  "/admin/products/edit/:id",
+  AuthMiddleware.checkAdmin,
+  ProductController.edit
+);
+router.get(
+  "/admin/products/delete/:id",
+  AuthMiddleware.checkAdmin,
+  ProductController.del
+);
 
 // Router User
 router.get("/admin/users", UserController.index);

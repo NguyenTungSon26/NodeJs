@@ -14,6 +14,8 @@ const postLogin = async (req, res) => {
   } else if (password == "") {
     error = "Mật khẩu không được để trống !";
   } else if (user.length > 0) {
+    req.session.email = email;
+    req.session.password = password;
     res.redirect("/admin/dashboard");
   } else {
     error = "Tài khoản không hợp lệ!";
