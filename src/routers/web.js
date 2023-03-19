@@ -19,7 +19,9 @@ router.post("/test2", TestController.test2);
 router.get("/admin/login", AuthController.login);
 router.post("/admin/login", AuthController.postLogin);
 router.get("/admin/logout", AuthController.logout);
+
 router.get("/admin/dashboard", AdminController.index);
+
 router.get("/admin/products", ProductController.index);
 router.get("/admin/products/create", ProductController.create);
 router.get("/admin/products/edit/:id", ProductController.edit);
