@@ -1,16 +1,19 @@
+const UserModel = require("../models/user");
+
 const login = (req, res) => {
   res.render("admin/login", { data: {} });
 };
 
-const postLogin = (req, res) => {
+const postLogin = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const user = await UserModel.find({ email: email, password: password });
   let error;
   if (email == "") {
     error = "Email không được để trống !";
   } else if (password == "") {
     error = "Mật khẩu không được để trống !";
-  } else if (email == "vietpro.edu.vn@gmail.com" && password == "123456") {
+  } else if (user.length > 0) {
     res.redirect("/admin/dashboard");
   } else {
     error = "Tài khoản không hợp lệ!";
