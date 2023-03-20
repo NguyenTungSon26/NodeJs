@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const AuthMiddleware = require("../apps/middlewares/auth");
+const UploadMiddlewave = require("../apps/middlewares/upload");
 
 //Import Controller
 const AuthController = require("../apps/controllers/auth");
@@ -16,7 +17,11 @@ const Home = (req, res) => {
 router.get("/", Home);
 
 router.get("/test", TestController.test);
-router.post("/test2", TestController.test2);
+router.post(
+  "/test2",
+
+  TestController.test2
+);
 router.get("/admin/login", AuthMiddleware.checkLogin, AuthController.login);
 router.post(
   "/admin/login",
@@ -40,6 +45,12 @@ router.get(
   "/admin/products/create",
   AuthMiddleware.checkAdmin,
   ProductController.create
+);
+router.post(
+  "/admin/products/store",
+  UploadMiddlewave.single("thumbnail"),
+  AuthMiddleware.checkAdmin,
+  ProductController.store
 );
 router.get(
   "/admin/products/edit/:id",

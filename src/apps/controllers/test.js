@@ -63,7 +63,9 @@ const test = async (req, res) => {
 //   console.log(st1 + res);
 // });
 
-const test2 = (req, res) => {};
+const test2 = (req, res) => {
+  console.log(req.body);
+};
 
 module.exports = {
   test: test,
