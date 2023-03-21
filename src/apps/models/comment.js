@@ -8,6 +8,7 @@ const commentSchema = new mongoose.Schema(
     },
     prd_id: {
       type: mongoose.Types.ObjectId,
+      ref: "Product",
       required: true,
     },
     body: {
