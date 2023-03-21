@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const config = require("config");
 const app = express();
 
+app.use(require("./middlewares/share"));
+
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({

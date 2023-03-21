@@ -10,18 +10,23 @@ const AdminController = require("../apps/controllers/admin");
 const ProductController = require("../apps/controllers/product");
 const UserController = require("../apps/controllers/user");
 const CategoryController = require("../apps/controllers/category");
+const SiteController = require("../apps/controllers/site");
 
 const Home = (req, res) => {
   res.send("<h1>Home Page</h1>");
 };
-router.get("/", Home);
 
+//Router Site
+router.get("/", SiteController.home);
+router.get("/category", SiteController.category);
+router.get("/product", SiteController.product);
+router.get("/search", SiteController.search);
+router.get("/cart", SiteController.cart);
+router.get("/success", SiteController.success);
+
+//Router Admin
 router.get("/test", TestController.test);
-router.post(
-  "/test2",
-
-  TestController.test2
-);
+router.post("/test2", TestController.test2);
 router.get("/admin/login", AuthMiddleware.checkLogin, AuthController.login);
 router.post(
   "/admin/login",
