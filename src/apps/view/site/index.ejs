@@ -24,17 +24,9 @@
                                 <div class="products">
                                     <h3>Sản phẩm nổi bật</h3>
                                     <div class="product-list card-deck">
-                                        <%for(x in featured){%>
-                                            <div class="product-item card text-center">
-                                                <a href="#"><img src="/static/images/<%=featured[x].thumbnail%>"></a>
-                                                <h4><a href="#">
-                                                        <%=featured[x].name%>
-                                                    </a></h4>
-                                                <p>Giá Bán: <span>
-                                                        <%=featured[x].price%>đ
-                                                    </span></p>
-                                            </div>
-                                            <%}%>
+                                        <%for(let product of featured){%>
+                                            <%- include("./components/product-item",{product})%>
+                                                <%}%>
                                     </div>
 
                                 </div>
@@ -45,17 +37,9 @@
                                 <div class="products">
                                     <h3>Sản phẩm mới</h3>
                                     <div class="product-list card-deck">
-                                        <%for(x in latest){%>
-                                            <div class="product-item card text-center">
-                                                <a href="#"><img src="/static/images/<%=latest[x].thumbnail%>"></a>
-                                                <h4><a href="#">
-                                                        <%=latest[x].name%>
-                                                    </a></h4>
-                                                <p>Giá Bán: <span>
-                                                        <%=latest[x].price%>đ
-                                                    </span></p>
-                                            </div>
-                                            <%}%>
+                                        <%for(let product of latest){%>
+                                            <%- include("./components/product-item",{product})%>
+                                                <%}%>
                                     </div>
 
                                 </div>
