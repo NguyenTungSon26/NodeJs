@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const config = require("config");
 const app = express();
 
-app.use(require("./middlewares/share"));
-
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
@@ -15,6 +13,8 @@ app.use(
     cookie: { secure: false },
   })
 );
+app.use(require("./middlewares/cart"));
+app.use(require("./middlewares/share"));
 
 //Config express
 // app.use(express.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ app.use(
 
 // Config body-parser
 // create application/json parser-Documents
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 // create application/x-www-form-urlencoded parser-Documents
 app.use(bodyParser.urlencoded({ extended: true }));
 

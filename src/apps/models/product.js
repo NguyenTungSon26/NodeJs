@@ -42,6 +42,7 @@ const productSchema = mongoose.Schema(
     is_stock: {
       type: Boolean,
       default: true,
+      text: true,
     },
     name: {
       type: String,

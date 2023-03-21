@@ -22,6 +22,7 @@ router.get("/category-:slug.:id", SiteController.category);
 router.get("/product-:slug.:id", SiteController.product);
 router.post("/product-:slug.:id", SiteController.comment);
 router.get("/search", SiteController.search);
+router.post("/add-to-cart", SiteController.addToCart);
 router.get("/cart", SiteController.cart);
 router.get("/success", SiteController.success);
 

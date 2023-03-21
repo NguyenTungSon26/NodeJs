@@ -31,8 +31,18 @@ const product = async (req, res) => {
   const comments = await CommentModel.find({ prd_id: id }).sort({ _id: -1 });
   res.render("site/product", { product, comments });
 };
-const search = (req, res) => {
-  res.render("site/search");
+const search = async (req, res) => {
+  /*
+  const keyword = req.query.keyword || "";
+  const filter = {};
+  if (keyword) {
+    filter.$text = { $search: keyword };
+  }
+  const products = await ProductModel.find(filter);
+  */
+  const keyword = req.query.keyword;
+  const products = await ProductModel.find({ $text: { $search: keyword } });
+  res.render("site/search", { keyword, products });
 };
 const comment = async (req, res) => {
   const id = req.params.id;
@@ -47,8 +57,35 @@ const comment = async (req, res) => {
   res.redirect(req.path);
 };
 
+const addToCart = async (req, res) => {
+  const body = req.body;
+  let items = req.session.cart;
+  let isProductExists = false;
+  items.map((product, index) => {
+    if (product.id === body.id) {
+      product.qty += parseInt(body.qty);
+      isProductExists = true;
+    }
+    return product;
+  });
+  const product = await ProductModel.findById(body.id);
+  if (!isProductExists) {
+    items.push({
+      id: body.id,
+      name: product.name,
+      thumbnail: product.thumbnail,
+      price: product.price,
+      qty: parseInt(body.qty),
+    });
+  }
+  req.session.cart = items;
+  res.redirect("/cart");
+  // console.log(req.session.cart);
+};
+
 const cart = (req, res) => {
-  res.render("site/cart");
+  const products = req.session.cart;
+  res.render("site/cart", { products });
 };
 const success = (req, res) => {
   res.render("site/success");
@@ -60,6 +97,7 @@ module.exports = {
   product,
   comment,
   search,
+  addToCart,
   cart,
   success,
 };
