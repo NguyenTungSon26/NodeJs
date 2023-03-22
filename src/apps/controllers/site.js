@@ -83,9 +83,34 @@ const addToCart = async (req, res) => {
   // console.log(req.session.cart);
 };
 
+const updateCart = (req, res) => {
+  const products = req.body.products;
+  let items = req.session.cart;
+  items.map((item, index) => {
+    if (products[item.id]) {
+      item.qty = products[item.id].qty;
+    }
+    return item;
+  });
+  req.session.cart = items;
+  res.redirect("/cart");
+  // console.log(products);
+};
+
+const delCart = (req, res) => {
+  const id = req.params.id;
+  let items = req.session.cart;
+  const newItems = items.filter((item) => {
+    if (item.id != id) {
+      return true;
+    }
+  });
+  req.session.cart = newItems;
+  res.redirect("/cart");
+};
 const cart = (req, res) => {
   const products = req.session.cart;
-  res.render("site/cart", { products });
+  res.render("site/cart", { products, totalPrice: 0 });
 };
 const success = (req, res) => {
   res.render("site/success");
@@ -98,6 +123,8 @@ module.exports = {
   comment,
   search,
   addToCart,
+  updateCart,
+  delCart,
   cart,
   success,
 };

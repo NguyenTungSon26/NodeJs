@@ -27,38 +27,44 @@
                                         <div class="cart-nav-item col-lg-2 col-md-2 col-sm-12">Tùy chọn</div>
                                         <div class="cart-nav-item col-lg-3 col-md-3 col-sm-12">Giá</div>
                                     </div>
-                                    <form method="post">
+                                    <form method="post" action="/update-cart">
                                         <% for( product of products){%>
-                                            <div class="cart-item row">
-                                                <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
-                                                    <img src="/static/images/<%=product.thumbnail%>">
-                                                    <h4>
-                                                        <%=product.name%>
-                                                    </h4>
-                                                </div>
-
-                                                <div class="cart-quantity col-lg-2 col-md-2 col-sm-12">
-                                                    <input type="number" id="quantity"
-                                                        class="form-control form-blue quantity" value=<%=product.qty%>
-                                                    min="1">
-                                                </div>
-                                                <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b>
-                                                        <%=product.qty*product.price%>
-                                                    </b><a href="#">Xóa</a></div>
-                                            </div>
-                                            <%}%>
-
-                                                <div class="row">
+                                            <% totalPrice +=product.qty*product.price%>
+                                                <div class="cart-item row">
                                                     <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
-                                                        <button id="update-cart" class="btn btn-success" type="submit"
-                                                            name="sbm">Cập nhật giỏ hàng</button>
+                                                        <img src="/static/images/<%=product.thumbnail%>">
+                                                        <h4>
+                                                            <%=product.name%>
+                                                        </h4>
                                                     </div>
-                                                    <div class="cart-total col-lg-2 col-md-2 col-sm-12"><b>Tổng
-                                                            cộng:</b></div>
-                                                    <div class="cart-price col-lg-3 col-md-3 col-sm-12">
-                                                        <b>88.970.000đ</b>
+
+                                                    <div class="cart-quantity col-lg-2 col-md-2 col-sm-12">
+                                                        <input name="products[<%=product.id%>][qty]" type="number"
+                                                            id="quantity" class="form-control form-blue quantity"
+                                                            value=<%=product.qty%>
+                                                        min="1">
                                                     </div>
+                                                    <div class="cart-price col-lg-3 col-md-3 col-sm-12"><b>
+                                                            <%=new Intl.NumberFormat("vi-VN", { style: "currency" ,
+                                                                currency: "VND" , }).format(product.qty*product.price)%>
+                                                        </b><a href="/del-cart-<%=product.id%>">Xóa</a></div>
                                                 </div>
+                                                <%}%>
+
+                                                    <div class="row">
+                                                        <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
+                                                            <button id="update-cart" class="btn btn-success"
+                                                                type="submit" name="sbm">Cập nhật giỏ hàng</button>
+                                                        </div>
+                                                        <div class="cart-total col-lg-2 col-md-2 col-sm-12"><b>Tổng
+                                                                cộng:</b></div>
+                                                        <div class="cart-price col-lg-3 col-md-3 col-sm-12">
+                                                            <b>
+                                                                <%=new Intl.NumberFormat("vi-VN", { style: "currency" ,
+                                                                    currency: "VND" , }).format(totalPrice)%>
+                                                            </b>
+                                                        </div>
+                                                    </div>
                                     </form>
 
                                 </div>
