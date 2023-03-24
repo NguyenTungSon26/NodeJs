@@ -26,6 +26,7 @@ router.post("/add-to-cart", SiteController.addToCart);
 router.post("/update-cart", SiteController.updateCart);
 router.get("/del-cart-:id", SiteController.delCart);
 router.get("/cart", SiteController.cart);
+router.post("/order", SiteController.order);
 router.get("/success", SiteController.success);
 
 //Router Admin

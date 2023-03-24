@@ -1,6 +1,10 @@
 const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
 const CommentModel = require("../models/comment");
+const transporter = require("../../common/transporter");
+const config = require("config");
+const ejs = require("ejs");
+const path = require("path");
 
 const home = async (req, res) => {
   const featured = await ProductModel.find({
@@ -56,6 +60,10 @@ const comment = async (req, res) => {
   await new CommentModel(comment).save();
   res.redirect(req.path);
 };
+const cart = (req, res) => {
+  const products = req.session.cart;
+  res.render("site/cart", { products, totalPrice: 0 });
+};
 
 const addToCart = async (req, res) => {
   const body = req.body;
@@ -86,15 +94,14 @@ const addToCart = async (req, res) => {
 const updateCart = (req, res) => {
   const products = req.body.products;
   let items = req.session.cart;
-  items.map((item, index) => {
+  items.map((item) => {
     if (products[item.id]) {
-      item.qty = products[item.id].qty;
+      item.qty = parseInt(products[item.id].qty);
     }
     return item;
   });
   req.session.cart = items;
   res.redirect("/cart");
-  // console.log(products);
 };
 
 const delCart = (req, res) => {
@@ -108,9 +115,29 @@ const delCart = (req, res) => {
   req.session.cart = newItems;
   res.redirect("/cart");
 };
-const cart = (req, res) => {
-  const products = req.session.cart;
-  res.render("site/cart", { products, totalPrice: 0 });
+
+const order = async (req, res) => {
+  const body = req.body;
+  const viewPath = req.app.get("views");
+  const html = await ejs.renderFile(
+    path.join(viewPath, "site/email-order.ejs"),
+    {
+      name: body.name,
+      phone: body.phone,
+      add: body.add,
+      items: req.session.cart,
+      totalPrice: 0,
+    }
+  );
+  await transporter.sendMail({
+    to: body.mail,
+    from: "Vietpro Shop",
+    subject: "Xác nhận đơn hàng từ Vietpro Shop",
+    html,
+  });
+
+  req.session.cart = [];
+  res.redirect("/success");
 };
 const success = (req, res) => {
   res.render("site/success");
@@ -122,9 +149,10 @@ module.exports = {
   product,
   comment,
   search,
+  cart,
   addToCart,
   updateCart,
   delCart,
-  cart,
+  order,
   success,
 };
